@@ -10,6 +10,8 @@ export const Text = (props: Props) => {
 	// Variables
 	const { name, label, description = '', reg } = props;
 	const { onBlur, schema, errors } = reg;
+
+	// Check validation schema for required test
 	const required = schema?.fields[name]?.exclusiveTests?.required || false;
 
 	return (
