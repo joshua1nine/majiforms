@@ -1,16 +1,26 @@
+import { useState } from 'react';
+import formatPhoneNumber from '../../lib/formatPhoneNumber';
+
 type Props = {
 	name: string;
 	label: string;
-	required?: boolean;
 	description?: string;
 	reg?: any;
 };
 
-export const Text = (props: Props) => {
+export const Tel = (props: Props) => {
 	// Variables
 	const { name, label, description = '', reg } = props;
 	const { onBlur, schema, errors } = reg;
 	const required = schema?.fields[name]?.exclusiveTests?.required || false;
+
+	// State
+	const [value, setValue] = useState('');
+
+	const handleChange = (e: { target: any }) => {
+		const currentValue = e.target.value;
+		setValue(formatPhoneNumber(currentValue));
+	};
 
 	return (
 		<div className='mb-3'>
@@ -28,10 +38,14 @@ export const Text = (props: Props) => {
 							? 'border-2 border-red-600 bg-red-100 outline-none'
 							: ''
 					}`}
-					type='text'
+					type='tel'
+					maxLength={10}
 					name={name}
-					required={required}
+					value={value}
+					placeholder='(123) 456-7891'
+					onChange={handleChange}
 					onBlur={onBlur}
+					required={required}
 				/>
 			</label>
 			{errors[name] && (

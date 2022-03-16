@@ -1,0 +1,1 @@
+export { Tel } from './Tel';

@@ -1,16 +1,18 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { convertArrayToObject } from './convertArrayToObject';
 import { toJSON } from './toJSON';
+import omit from 'just-omit';
+import { InferType } from 'yup';
 
 interface Options {
-	validation?: any;
+	validationSchema?: any;
 	submitType?: string;
 	action?: string;
 }
 
 export const useMajiForm = (options: Options) => {
 	// Options
-	const validation = options.validation || 'none';
+	const validation = options.validationSchema || 'none';
 	const submitType = options.submitType || 'console';
 	const action = options.action || 'api/email';
 
@@ -19,6 +21,30 @@ export const useMajiForm = (options: Options) => {
 
 	// Ref
 	const formRef = useRef<HTMLFormElement>(null!);
+
+	// Validate onBlur
+	const onBlur = async (e: {
+		target: { value: any; name: string; attributes: any };
+	}) => {
+		let value = e.target.value;
+		let name = e.target.name;
+		let val = validation?.fields[name];
+
+		if (val) {
+			val
+				.validate(value)
+				.then(() => {
+					const newErrors = omit(errors, [name]);
+					setErrors && setErrors(newErrors);
+				})
+				.catch((err: { message: any }) => {
+					setErrors &&
+						setErrors((current: any) => ({ ...current, [name]: err.message }));
+				});
+
+			return val;
+		}
+	};
 
 	// Submit Spin
 	const [spin, setSpin] = useState(false);
@@ -35,7 +61,7 @@ export const useMajiForm = (options: Options) => {
 			console.log(formFields);
 			setTimeout(() => setSpin(false), 2000);
 		} else {
-			options.validation
+			options.validationSchema
 				.validate(formFields, { abortEarly: false })
 				.then(async () => {
 					setErrors({});
@@ -81,5 +107,7 @@ export const useMajiForm = (options: Options) => {
 		}
 	};
 
-	return { errors, setErrors, formRef, handleSubmit, spin };
+	const reg = { onBlur, schema: options.validationSchema, errors };
+
+	return { errors, formRef, handleSubmit, spin, reg };
 };
