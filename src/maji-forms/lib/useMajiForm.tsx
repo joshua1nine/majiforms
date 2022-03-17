@@ -2,18 +2,23 @@ import { useState, useRef, useEffect } from 'react';
 import { convertArrayToObject } from './convertArrayToObject';
 import { toJSON } from './toJSON';
 import omit from 'just-omit';
+import { object } from 'yup';
 
 interface Options {
-	validationSchema?: any;
+	validation?: boolean;
 	submitType?: string;
 	action?: string;
 }
 
 export const useMajiForm = (options: Options) => {
 	// Options
-	const validation = options.validationSchema || 'none';
+	const validation = options.validation || false;
 	const submitType = options.submitType || 'console';
 	const action = options.action || 'api/email';
+
+	const [validationSchema, setValidationSchema] = useState(object({}));
+
+	console.log(validationSchema);
 
 	// Errors
 	const [errors, setErrors] = useState({});
@@ -27,7 +32,7 @@ export const useMajiForm = (options: Options) => {
 	}) => {
 		let value = e.target.value;
 		let name = e.target.name;
-		let val = validation?.fields[name];
+		let val = validationSchema?.fields[name];
 
 		if (val) {
 			val
@@ -59,11 +64,11 @@ export const useMajiForm = (options: Options) => {
 		setSpin(true);
 
 		// Skip validation and send to console
-		if (submitType == 'console' && validation == 'none') {
+		if (submitType == 'console' && validation == false) {
 			console.log(formFields);
 			setTimeout(() => setSpin(false), 2000);
 		} else {
-			options.validationSchema
+			validationSchema
 				.validate(formFields, { abortEarly: false })
 				.then(async () => {
 					setErrors({});
@@ -111,7 +116,13 @@ export const useMajiForm = (options: Options) => {
 		}
 	};
 
-	const reg = { onBlur, schema: options.validationSchema, errors, setErrors };
+	const reg = {
+		onBlur,
+		validationSchema,
+		setValidationSchema,
+		errors,
+		setErrors,
+	};
 
 	return { errors, formRef, handleSubmit, spin, reg };
 };

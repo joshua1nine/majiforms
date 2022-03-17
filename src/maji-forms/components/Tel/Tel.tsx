@@ -1,20 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { string } from 'yup';
 import formatPhoneNumber from '../../lib/formatPhoneNumber';
 
 type Props = {
 	name: string;
 	label: string;
 	description?: string;
+	required?: boolean;
 	reg?: any;
 };
 
 export const Tel = (props: Props) => {
 	// Variables
-	const { name, label, description = '', reg } = props;
-	const { onBlur, schema, errors } = reg;
-
-	// Check validation schema for required test
-	const required = schema?.fields[name]?.exclusiveTests?.required || false;
+	const { name, label, description = '', reg, required = false } = props;
+	const { onBlur, validationSchema, setValidationSchema, errors } = reg;
 
 	// State
 	const [value, setValue] = useState('');
@@ -23,6 +22,23 @@ export const Tel = (props: Props) => {
 		const currentValue = e.target.value;
 		setValue(formatPhoneNumber(currentValue));
 	};
+
+	// Set Validation
+	useEffect(() => {
+		setValidationSchema((values: { fields: any }) => {
+			if (required) {
+				return validationSchema.shape({
+					...values.fields,
+					[name]: string().required('Required'),
+				});
+			} else {
+				return validationSchema.shape({
+					...values.fields,
+					[name]: string(),
+				});
+			}
+		});
+	}, []);
 
 	return (
 		<div className='mb-3'>

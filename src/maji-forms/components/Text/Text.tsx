@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { string } from 'yup';
+
 type Props = {
 	name: string;
 	label: string;
@@ -8,11 +11,25 @@ type Props = {
 
 export const Text = (props: Props) => {
 	// Variables
-	const { name, label, description = '', reg } = props;
-	const { onBlur, schema, errors } = reg;
+	const { name, label, description = '', reg, required = false } = props;
+	const { onBlur, validationSchema, setValidationSchema, errors } = reg;
 
-	// Check validation schema for required test
-	const required = schema?.fields[name]?.exclusiveTests?.required || false;
+	// Set Validation
+	useEffect(() => {
+		setValidationSchema((values: { fields: any }) => {
+			if (required) {
+				return validationSchema.shape({
+					...values.fields,
+					[name]: string().required('Required'),
+				});
+			} else {
+				return validationSchema.shape({
+					...values.fields,
+					[name]: string(),
+				});
+			}
+		});
+	}, []);
 
 	return (
 		<div className='mb-3'>
