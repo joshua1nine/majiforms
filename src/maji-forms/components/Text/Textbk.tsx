@@ -1,21 +1,18 @@
-import { useEffect, useContext } from 'react';
+import { useEffect } from 'react';
 import { string } from 'yup';
-import { FormContext } from '../../context/FormContext';
 
 type Props = {
 	name: string;
 	label: string;
 	required?: boolean;
 	description?: string;
+	reg?: any;
 };
 
 export const Text = (props: Props) => {
-	// Props
-	const { name, label, description = '', required = false } = props;
-
-	// Form Global State
-	const { errors, validationSchema, setValidationSchema, onBlur } =
-		useContext(FormContext);
+	// Variables
+	const { name, label, description = '', reg, required = false } = props;
+	const { onBlur, validationSchema, setValidationSchema, errors } = reg;
 
 	// Set Validation
 	useEffect(() => {

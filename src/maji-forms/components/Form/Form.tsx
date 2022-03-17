@@ -1,21 +1,23 @@
-import { useState, useRef, useEffect } from 'react';
-import { convertArrayToObject } from './convertArrayToObject';
-import { toJSON } from './toJSON';
-import omit from 'just-omit';
+import { useState, useRef, useMemo } from 'react';
 import { object } from 'yup';
+import { FormContext } from '../../context/FormContext';
+import { convertArrayToObject } from '../../lib/convertArrayToObject';
+import { toJSON } from '../../lib/toJSON';
+import omit from 'just-omit';
 
-interface Options {
-	validation?: boolean;
-	submitType?: string;
+interface Props {
+	children: React.ReactNode;
+	validation?: 'on' | 'off'; // Default is 'on'
+	submitType?: 'console' | 'multipart/form-data' | 'application/json';
 	action?: string;
 }
 
-export const useMajiForm = (options: Options) => {
-	// Options
-	const validation = options.validation || false;
-	const submitType = options.submitType || 'console';
-	const action = options.action || 'api/email';
-
+export const Form = ({
+	children,
+	validation = 'on',
+	submitType = 'console',
+	action = 'api/email',
+}: Props) => {
 	// Validation
 	const [validationSchema, setValidationSchema] = useState(object({}));
 
@@ -24,6 +26,9 @@ export const useMajiForm = (options: Options) => {
 
 	// Ref
 	const formRef = useRef<HTMLFormElement>(null!);
+
+	// Submit Spin
+	const [spin, setSpin] = useState(false);
 
 	// Validate onBlur
 	const onBlur = async (e: {
@@ -49,9 +54,6 @@ export const useMajiForm = (options: Options) => {
 		}
 	};
 
-	// Submit Spin
-	const [spin, setSpin] = useState(false);
-
 	// Submit Logic
 	const handleSubmit = async (e: { preventDefault: () => void }) => {
 		e.preventDefault();
@@ -63,7 +65,7 @@ export const useMajiForm = (options: Options) => {
 		setSpin(true);
 
 		// Skip validation and send to console
-		if (submitType == 'console' && validation == false) {
+		if (submitType == 'console' && validation == 'off') {
 			console.log(formFields);
 			setTimeout(() => setSpin(false), 2000);
 		} else {
@@ -115,13 +117,25 @@ export const useMajiForm = (options: Options) => {
 		}
 	};
 
-	const reg = {
-		onBlur,
-		validationSchema,
-		setValidationSchema,
-		errors,
-		setErrors,
-	};
+	// Pass to forms global state
+	const value = useMemo(
+		() => ({
+			errors,
+			setErrors,
+			validationSchema,
+			setValidationSchema,
+			spin,
+			setSpin,
+			onBlur,
+		}),
+		[errors, validationSchema, spin, onBlur]
+	);
 
-	return { errors, formRef, handleSubmit, spin, reg };
+	return (
+		<FormContext.Provider value={value}>
+			<form ref={formRef} onSubmit={handleSubmit} noValidate>
+				{children}
+			</form>
+		</FormContext.Provider>
+	);
 };
