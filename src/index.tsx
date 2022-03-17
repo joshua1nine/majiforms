@@ -1,12 +1,12 @@
 import './styles/global.css';
-import { Text, Submit, useMajiForm, Tel } from './maji-forms/index';
-import { object, string } from 'yup';
+import { Text, Submit, useMajiForm, Tel, FileUpload } from './maji-forms/index';
+import { array, number, object, string } from 'yup';
 
 function Index() {
 	const { handleSubmit, formRef, spin, reg } = useMajiForm({
 		validationSchema: object({
-			fname: string().required(),
-			// phone: string().min(10, 'must be a valid phone number').required(),
+			fname: string(),
+			phone: string().min(10, 'must be a valid phone number'),
 		}),
 	});
 
@@ -16,6 +16,7 @@ function Index() {
 			<form onSubmit={handleSubmit} ref={formRef}>
 				<Text name='fname' label='First Name' reg={reg} />
 				<Tel name='phone' label='Phone' reg={reg} />
+				<FileUpload name='app' label='Application' reg={reg} />
 				<Submit spin={spin}>Send</Submit>
 			</form>
 		</div>

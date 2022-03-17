@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react';
 import { convertArrayToObject } from './convertArrayToObject';
 import { toJSON } from './toJSON';
 import omit from 'just-omit';
-import { InferType } from 'yup';
 
 interface Options {
 	validationSchema?: any;
@@ -53,6 +52,9 @@ export const useMajiForm = (options: Options) => {
 	const handleSubmit = async (e: { preventDefault: () => void }) => {
 		e.preventDefault();
 		const formData = new FormData(formRef.current);
+		for (const field of formData.values()) {
+			console.log(field);
+		}
 		const formFields: any = toJSON(formData);
 		setSpin(true);
 
@@ -68,6 +70,7 @@ export const useMajiForm = (options: Options) => {
 					// Send to console
 					if (submitType == 'console') {
 						console.log(formFields);
+						setTimeout(() => setSpin(false), 2000);
 					}
 					// Send as multipart/from-data
 					if (submitType === 'multipart/form-data') {
@@ -101,13 +104,14 @@ export const useMajiForm = (options: Options) => {
 					}
 				})
 				.catch((err: { inner: any[] }) => {
+					setSpin(false);
 					let errors = convertArrayToObject(err.inner);
 					setErrors(errors);
 				});
 		}
 	};
 
-	const reg = { onBlur, schema: options.validationSchema, errors };
+	const reg = { onBlur, schema: options.validationSchema, errors, setErrors };
 
 	return { errors, formRef, handleSubmit, spin, reg };
 };
