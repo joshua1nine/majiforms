@@ -18,8 +18,6 @@ export const useMajiForm = (options: Options) => {
 
 	const [validationSchema, setValidationSchema] = useState(object({}));
 
-	console.log(validationSchema);
-
 	// Errors
 	const [errors, setErrors] = useState({});
 
