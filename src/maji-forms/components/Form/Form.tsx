@@ -4,6 +4,7 @@ import { FormContext } from '../../context/FormContext';
 import { convertArrayToObject } from '../../lib/convertArrayToObject';
 import { toJSON } from '../../lib/toJSON';
 import omit from 'just-omit';
+import { Submit } from '../Submit';
 
 interface Props {
 	children: React.ReactNode;
@@ -58,9 +59,6 @@ export const Form = ({
 	const handleSubmit = async (e: { preventDefault: () => void }) => {
 		e.preventDefault();
 		const formData = new FormData(formRef.current);
-		for (const field of formData.values()) {
-			console.log(field);
-		}
 		const formFields: any = toJSON(formData);
 		setSpin(true);
 

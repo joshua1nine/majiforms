@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { FormContext } from '../../context/FormContext';
 
 type Submit = {
 	children: React.ReactNode;
-	spin?: boolean;
 };
 
-export const Submit = ({ children, spin }: Submit) => {
+export const Submit = ({ children }: Submit) => {
+	// Form Global State
+	const { spin } = useContext(FormContext);
+
 	return (
 		<button
 			className='flex items-center justify-center text-white bg-[#cb2c30] my-5 w-24 h-12 border-0 rounded cursor-pointer active:shadow-innerBtn active:bg-[#cb2c30] hover:bg-red-700'

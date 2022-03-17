@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { string } from 'yup';
+import { FormContext } from '../../context/FormContext';
 import formatPhoneNumber from '../../lib/formatPhoneNumber';
 
 type Props = {
@@ -7,13 +8,15 @@ type Props = {
 	label: string;
 	description?: string;
 	required?: boolean;
-	reg?: any;
 };
 
 export const Tel = (props: Props) => {
-	// Variables
-	const { name, label, description = '', reg, required = false } = props;
-	const { onBlur, validationSchema, setValidationSchema, errors } = reg;
+	// Props
+	const { name, label, description = '', required = false } = props;
+
+	// Form Global State
+	const { errors, validationSchema, setValidationSchema, onBlur } =
+		useContext(FormContext);
 
 	// State
 	const [value, setValue] = useState('');
@@ -29,12 +32,14 @@ export const Tel = (props: Props) => {
 			if (required) {
 				return validationSchema.shape({
 					...values.fields,
-					[name]: string().required('Required'),
+					[name]: string()
+						.min(10, 'Must be a vaild phone number')
+						.required('Required'),
 				});
 			} else {
 				return validationSchema.shape({
 					...values.fields,
-					[name]: string(),
+					[name]: string().min(10, 'Must be a vaild phone number'),
 				});
 			}
 		});
