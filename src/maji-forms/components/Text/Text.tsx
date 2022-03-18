@@ -1,6 +1,6 @@
 import { useEffect, useContext } from 'react';
 import { string } from 'yup';
-import { FormContext } from '../../context/FormContext';
+import { FormContext } from '../FormContext';
 
 type Props = {
 	name: string;

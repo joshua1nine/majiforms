@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { string } from 'yup';
-import { FormContext } from '../../context/FormContext';
+import { FormContext } from '../FormContext';
 import formatPhoneNumber from '../../lib/formatPhoneNumber';
 
 type Props = {

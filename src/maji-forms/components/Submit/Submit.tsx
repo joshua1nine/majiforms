@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { FormContext } from '../../context/FormContext';
+import { FormContext } from '../FormContext';
 
 type Submit = {
 	children: React.ReactNode;

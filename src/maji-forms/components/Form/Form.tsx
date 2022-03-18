@@ -1,10 +1,9 @@
 import { useState, useRef, useMemo } from 'react';
 import { object } from 'yup';
-import { FormContext } from '../../context/FormContext';
 import { convertArrayToObject } from '../../lib/convertArrayToObject';
 import { toJSON } from '../../lib/toJSON';
 import omit from 'just-omit';
-import { Submit } from '../Submit';
+import { FormContext } from '../FormContext';
 
 interface Props {
 	children: React.ReactNode;
