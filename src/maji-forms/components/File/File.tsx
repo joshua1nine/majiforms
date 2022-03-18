@@ -1,25 +1,24 @@
-import styles from './FileUpload.module.css';
 import { FaRegFileAlt } from 'react-icons/fa';
-import omit from 'just-omit';
-import { DragEvent, Key, useRef, useState } from 'react';
-import * as yup from 'yup';
+import { DragEvent, Key, useContext, useRef, useState, useEffect } from 'react';
+import { FormContext } from '../FormContext';
+import { object } from 'yup';
 
 interface Props {
 	name: string;
 	label: string;
-	reg: any;
 	multiple?: boolean;
+	required?: boolean;
 	accept?: string;
 }
 
-export const FileUpload = ({ name, label, reg, multiple, accept }: Props) => {
-	const { onBlur, schema, errors, setErrors } = reg;
-
-	// Check validation schema for required test
-	const required = schema?.fields[name]?.exclusiveTests?.required || false;
+export const File = ({ name, label, multiple, accept, required }: Props) => {
+	// Form Global State
+	const { errors, validationSchema, setValidationSchema, setErrors } =
+		useContext(FormContext);
 
 	/* ---- State ---- */
-	const [dropZone, setDropZone] = useState(styles.dropZone);
+	// const [dropZone, setDropZone] = useState(styles.dropZone);
+	const [dropZone, setDropZone] = useState(false);
 	const [value, setValue] = useState<any>([]);
 
 	/* ---- Refs ---- */
@@ -30,12 +29,30 @@ export const FileUpload = ({ name, label, reg, multiple, accept }: Props) => {
 		hiddenFileInput?.current?.click();
 	};
 
+	// Set Validation
+	useEffect(() => {
+		setValidationSchema((values: { fields: any }) => {
+			if (required) {
+				return validationSchema.shape({
+					...values.fields,
+					[name]: object().nullable().required('Required'),
+				});
+			} else {
+				return validationSchema.shape({
+					...values.fields,
+					[name]: object().nullable(),
+				});
+			}
+		});
+	}, []);
+
 	const handleAppChange = async (e: {
 		preventDefault: () => void;
 		target: { files: any };
 	}) => {
 		e.preventDefault();
 		setValue([]);
+		setErrors([]);
 		const files = e.target.files;
 		for (const file of files) {
 			if (file.size <= 2000000) {
@@ -57,22 +74,22 @@ export const FileUpload = ({ name, label, reg, multiple, accept }: Props) => {
 	const handleDragEnter = (e: DragEvent<HTMLDivElement>) => {
 		e.preventDefault();
 		e.stopPropagation();
-		setDropZone(styles.dropEnter);
+		setDropZone(true); // enter styles
 	};
 	const handleDragLeave = (e: DragEvent<HTMLDivElement>) => {
 		e.preventDefault();
 		e.stopPropagation();
-		setDropZone(styles.dropZone);
+		setDropZone(false); // default styles
 	};
 	const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
 		e.preventDefault();
 		e.stopPropagation();
-		setDropZone(styles.dropEnter);
+		setDropZone(true); // enter styles
 	};
 	const handleDrop = (e: DragEvent<HTMLDivElement>) => {
 		e.preventDefault();
 		e.stopPropagation();
-		setDropZone(styles.dropZone);
+		setDropZone(false); // defualt styles
 		let files = e.dataTransfer.files;
 
 		for (const file of files) {
@@ -92,21 +109,12 @@ export const FileUpload = ({ name, label, reg, multiple, accept }: Props) => {
 		}
 	};
 
-	/* ---- Validation ---- */
-	// const fileSchema = yup
-	// 	.mixed()
-	// 	.test('required', 'Required', (value) => value !== undefined)
-	// 	.test('file-size', 'Cannot be more than 2MB', (value) => {
-	// 		if (value === undefined) return true; // attachment is optional
-	// 		return value.size <= 2000000;
-	// 	});
-
 	/* ---- Template ---- */
 	return (
-		<div className={styles.wrap}>
-			<label>
-				<span className={styles.label}>
-					{label} <span className='text-red-600'>{required && '*'}</span>
+		<div className='mb-3'>
+			<label className={`block py-2 px-0 ${errors[name] ? 'text-error' : ''}`}>
+				<span>
+					{label} <span className='text-error'>{required && '*'}</span>
 				</span>
 				<input
 					ref={hiddenFileInput}
@@ -120,7 +128,9 @@ export const FileUpload = ({ name, label, reg, multiple, accept }: Props) => {
 				/>
 			</label>
 			<div
-				className={dropZone}
+				className={`flex flex-col rounded items-center justify-center border-2 border-dashed bg-white py-7 px-3 cursor-pointer ${
+					dropZone || errors[name] ? 'border-red' : 'border-gray-700'
+				}`}
 				onDrop={(e) => handleDrop(e)}
 				onDragOver={(e) => handleDragOver(e)}
 				onDragEnter={(e) => handleDragEnter(e)}
@@ -128,28 +138,35 @@ export const FileUpload = ({ name, label, reg, multiple, accept }: Props) => {
 				onClick={handleAppClick}>
 				<FaRegFileAlt
 					className={
-						dropZone === styles.dropEnter
-							? styles.dropEnterIcon
-							: styles.dropZoneIcon
+						dropZone
+							? 'mb-4 text-4xl text-red animate-bounce-rev'
+							: 'mb-4 text-4xl text-gray-700 transition-all'
 					}
 				/>
-				<p className={styles.dropMessage}>
-					Drop your application here, or <span>browse</span>
+				<p className='m-0'>
+					Drop your application here, or{' '}
+					<span className='cursor-pointer font-bold hover:text-red'>
+						browse
+					</span>
 				</p>
 				{accept && (
-					<span className={styles.acceptText}>Supports: {accept}</span>
+					<span className='text-sm text-gray-700'>Supports: {accept}</span>
 				)}
 			</div>
 			{value.length > 0 &&
 				value.map((file: any, index: Key | null | undefined) => {
 					return (
-						<div key={index} className={styles.filePrev}>
-							<FaRegFileAlt />
-							<span>{file.name}</span>
+						<div
+							key={index}
+							className='mt-2 flex items-center border border-gray-700 rounded p-3'>
+							<FaRegFileAlt className='mr-3 text-2xl text-red' />
+							<span className='m-0'>{file.name}</span>
 						</div>
 					);
 				})}
-			{errors[name] && <span className={styles.errorMsg}>{errors[name]}</span>}
+			{errors[name] && (
+				<span className='text-error block mt-1'>{errors[name]}</span>
+			)}
 		</div>
 	);
 };

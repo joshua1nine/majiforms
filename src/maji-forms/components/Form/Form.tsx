@@ -125,7 +125,7 @@ export const Form = ({
 			setSpin,
 			onBlur,
 		}),
-		[errors, validationSchema, spin, onBlur]
+		[errors, validationSchema, spin, onBlur, setErrors]
 	);
 
 	return (

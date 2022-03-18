@@ -48,18 +48,15 @@ export const Tel = (props: Props) => {
 	return (
 		<div className='mb-3'>
 			<label>
-				<span
-					className={`block py-2 px-0 text-lg ${
-						errors[name] ? 'text-red-600' : ''
-					}`}>
-					{label} <span className='text-red-600'>{required && '*'}</span>
+				<span className={`block py-2 px-0 ${errors[name] ? 'text-error' : ''}`}>
+					{label} <span className='text-error'>{required && '*'}</span>
 				</span>
 				<span>{description}</span>
 				<input
-					className={`block w-full p-3 pr-4 rounded border border-gray-700 ${
+					className={`block w-full p-3 pr-4 rounded ${
 						errors[name]
-							? 'border-2 border-red-600 bg-red-100 outline-none'
-							: ''
+							? 'border-2 border-red bg-red-100 outline-none'
+							: 'border border-gray-700'
 					}`}
 					type='tel'
 					maxLength={10}
@@ -72,7 +69,7 @@ export const Tel = (props: Props) => {
 				/>
 			</label>
 			{errors[name] && (
-				<span className='text-red-600 block text-lg mt-1'>{errors[name]}</span>
+				<span className='text-error block mt-1'>{errors[name]}</span>
 			)}
 		</div>
 	);

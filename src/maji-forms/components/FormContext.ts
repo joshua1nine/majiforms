@@ -1,8 +1,8 @@
 import { createContext } from 'react';
 
 interface FormContextInt {
-	errors: {};
-	setErrors: {};
+	errors: any;
+	setErrors: any;
 	validationSchema: any;
 	setValidationSchema: any;
 	spin: boolean;
