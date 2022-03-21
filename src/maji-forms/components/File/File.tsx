@@ -25,8 +25,6 @@ export const File = ({ name, label, multiple, accept, required }: Props) => {
 	const [dropZone, setDropZone] = useState(false);
 	const [value, setValue] = useState<any>([]);
 
-	console.log(value);
-
 	/* ---- Refs ---- */
 	const hiddenFileInput = useRef<any>(null!);
 
@@ -106,15 +104,17 @@ export const File = ({ name, label, multiple, accept, required }: Props) => {
 	};
 
 	useEffect(() => {
-		if (multiple) {
-			setFormValues((current) => ({
-				...current,
-				[name]: value,
-			}));
-		} else {
-			setFormValues({
-				[name]: value[0],
-			});
+		if (value.length > 0) {
+			if (multiple) {
+				setFormValues((current) => ({
+					...current,
+					[name]: value,
+				}));
+			} else {
+				setFormValues({
+					[name]: value[0],
+				});
+			}
 		}
 	}, [value]);
 
