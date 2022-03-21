@@ -7,7 +7,7 @@ import { FormContext } from '../FormContext';
 interface Props {
 	children: React.ReactNode;
 	validation?: 'on' | 'off'; // Default is 'on'
-	submitType?: 'console' | 'multipart/form-data' | 'application/json';
+	submitType?: 'console' | 'application/json';
 	action?: string;
 }
 
