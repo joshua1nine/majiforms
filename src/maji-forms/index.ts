@@ -1,6 +1,10 @@
 export { Text } from './components/Text';
+export { TextArea } from './components/TextArea';
+export { Email } from './components/Email';
 export { Submit } from './components/Submit';
-export { useMajiForm } from './lib/useMajiForm';
 export { Tel } from './components/Tel';
+export { Number } from './components/Number';
+export { Url } from './components/Url';
 export { File } from './components/File';
 export { Form } from './components/Form';
+// export { useMajiForm } from './lib/useMajiForm';

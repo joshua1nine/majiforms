@@ -17,11 +17,11 @@ app.use(express.json({ limit: '200mb' }));
 app.post('/api/hello', async (req, res) => {
 	try {
 		const app = req.body.app;
-
-		let data = app.data.split(',')[1];
-		let asset = Buffer.from(data, 'base64url');
+		console.log(req.body);
 
 		if (app) {
+			let data = app.data.split(',')[1];
+			let asset = Buffer.from(data, 'base64url');
 			client.assets
 				.upload('file', asset, {
 					filename: app.name,

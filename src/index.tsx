@@ -1,5 +1,15 @@
 import './styles/global.css';
-import { Submit, Form, Text, Tel, File } from './maji-forms/index';
+import {
+	Submit,
+	Form,
+	Text,
+	Tel,
+	File,
+	TextArea,
+	Email,
+	Number,
+	Url,
+} from './maji-forms/index';
 
 function Index() {
 	return (
@@ -10,6 +20,10 @@ function Index() {
 				<Text name='lname' label='Last Name' />
 				<Tel name='phone' label='Phone' />
 				<File name='app' label='Application' accept='.pdf,.jpg,.jpeg,.png' />
+				<TextArea name='textArea' label='Text Area' required />
+				<Email name='email' label='Email' />
+				<Number name='number' label='Number' required />
+				<Url name='Url' label='Url' required />
 				<Submit>Send</Submit>
 			</Form>
 		</div>
