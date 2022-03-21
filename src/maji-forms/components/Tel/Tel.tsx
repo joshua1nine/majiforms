@@ -15,14 +15,24 @@ export const Tel = (props: Props) => {
 	const { name, label, description = '', required = false } = props;
 
 	// Form Global State
-	const { errors, validationSchema, setValidationSchema, onBlur } =
-		useContext(FormContext);
+	const {
+		errors,
+		validationSchema,
+		setValidationSchema,
+		onBlur,
+		setFormValues,
+	} = useContext(FormContext);
 
 	// State
 	const [value, setValue] = useState('');
 
 	const handleChange = (e: { target: any }) => {
 		const currentValue = e.target.value;
+		let name = e.target.name;
+		setFormValues((current) => ({
+			...current,
+			[name]: formatPhoneNumber(currentValue),
+		}));
 		setValue(formatPhoneNumber(currentValue));
 	};
 

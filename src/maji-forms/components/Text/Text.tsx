@@ -14,8 +14,19 @@ export const Text = (props: Props) => {
 	const { name, label, description = '', required = false } = props;
 
 	// Form Global State
-	const { errors, validationSchema, setValidationSchema, onBlur } =
-		useContext(FormContext);
+	const {
+		errors,
+		validationSchema,
+		setValidationSchema,
+		onBlur,
+		setFormValues,
+	} = useContext(FormContext);
+
+	const handelChange = (e: { target: { value: any; name: any } }) => {
+		let value = e.target.value;
+		let name = e.target.name;
+		setFormValues((current) => ({ ...current, [name]: value }));
+	};
 
 	// Set Validation
 	useEffect(() => {
@@ -51,6 +62,7 @@ export const Text = (props: Props) => {
 					name={name}
 					required={required}
 					onBlur={onBlur}
+					onChange={handelChange}
 				/>
 			</label>
 			{errors[name] && (

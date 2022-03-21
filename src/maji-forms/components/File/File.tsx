@@ -1,7 +1,7 @@
-import { FaRegFileAlt } from 'react-icons/fa';
+import { FaRegFileAlt, FaImage } from 'react-icons/fa';
 import { DragEvent, Key, useContext, useRef, useState, useEffect } from 'react';
 import { FormContext } from '../FormContext';
-import { object } from 'yup';
+import { mixed, string } from 'yup';
 
 interface Props {
 	name: string;
@@ -13,13 +13,19 @@ interface Props {
 
 export const File = ({ name, label, multiple, accept, required }: Props) => {
 	// Form Global State
-	const { errors, validationSchema, setValidationSchema, setErrors } =
-		useContext(FormContext);
+	const {
+		errors,
+		validationSchema,
+		setValidationSchema,
+		setErrors,
+		setFormValues,
+	} = useContext(FormContext);
 
 	/* ---- State ---- */
-	// const [dropZone, setDropZone] = useState(styles.dropZone);
 	const [dropZone, setDropZone] = useState(false);
 	const [value, setValue] = useState<any>([]);
+
+	console.log(value);
 
 	/* ---- Refs ---- */
 	const hiddenFileInput = useRef<any>(null!);
@@ -35,12 +41,14 @@ export const File = ({ name, label, multiple, accept, required }: Props) => {
 			if (required) {
 				return validationSchema.shape({
 					...values.fields,
-					[name]: object().nullable().required('Required'),
+					[name]: mixed().test('required', 'Required', (value) => {
+						return value.size > 0;
+					}),
 				});
 			} else {
 				return validationSchema.shape({
 					...values.fields,
-					[name]: object().nullable(),
+					[name]: string(),
 				});
 			}
 		});
@@ -51,15 +59,41 @@ export const File = ({ name, label, multiple, accept, required }: Props) => {
 		target: { files: any };
 	}) => {
 		e.preventDefault();
+
+		// Clear out value
 		setValue([]);
+
+		// Clear out errors
 		setErrors([]);
+
+		// Create accept array to validate type with
+		let fileTypes = accept?.replaceAll('.', '')?.split(',');
+
+		// Grab files and check each file
 		const files = e.target.files;
+
 		for (const file of files) {
 			if (file.size <= 2000000) {
-				if (multiple) {
-					setValue((current: any[]) => [...current, file]);
+				if (fileTypes?.includes(file.type.split('/')[1])) {
+					let reader = new FileReader();
+					reader.readAsDataURL(file);
+					reader.onload = function () {
+						let base64data = reader.result;
+
+						let fileObj = {
+							name: file.name,
+							size: file.size,
+							type: file.type,
+							data: base64data,
+						};
+						setValue((current: any[]) => [...current, fileObj]);
+					};
 				} else {
-					setValue([file]);
+					setErrors &&
+						setErrors((current: any[]) => ({
+							...current,
+							[name]: `File type ${file.type} not supported`,
+						}));
 				}
 			} else {
 				setErrors &&
@@ -70,6 +104,19 @@ export const File = ({ name, label, multiple, accept, required }: Props) => {
 			}
 		}
 	};
+
+	useEffect(() => {
+		if (multiple) {
+			setFormValues((current) => ({
+				...current,
+				[name]: value,
+			}));
+		} else {
+			setFormValues({
+				[name]: value[0],
+			});
+		}
+	}, [value]);
 
 	const handleDragEnter = (e: DragEvent<HTMLDivElement>) => {
 		e.preventDefault();
@@ -122,7 +169,6 @@ export const File = ({ name, label, multiple, accept, required }: Props) => {
 					type='file'
 					name={name}
 					onChange={handleAppChange}
-					onBlur={handleAppChange}
 					accept={accept}
 					multiple={multiple}
 				/>
@@ -158,9 +204,15 @@ export const File = ({ name, label, multiple, accept, required }: Props) => {
 					return (
 						<div
 							key={index}
-							className='mt-2 flex items-center border border-gray-700 rounded p-3'>
-							<FaRegFileAlt className='mr-3 text-2xl text-red' />
-							<span className='m-0'>{file.name}</span>
+							className='mt-2 flex items-center justify-between border border-gray-700 rounded p-3'>
+							<div className='flex items-center'>
+								{file?.type?.includes('image/') ? (
+									<FaImage className='mr-3 text-2xl text-red' />
+								) : (
+									<FaRegFileAlt className='mr-3 text-2xl text-red' />
+								)}
+								<span className='m-0'>{file.name}</span>
+							</div>
 						</div>
 					);
 				})}

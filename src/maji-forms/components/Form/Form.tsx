@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from 'react';
+import { useState, useRef, useMemo, useEffect } from 'react';
 import { object } from 'yup';
 import { convertArrayToObject } from '../../lib/convertArrayToObject';
 import { toJSON } from '../../lib/toJSON';
@@ -26,6 +26,10 @@ export const Form = ({
 
 	// Ref
 	const formRef = useRef<HTMLFormElement>(null!);
+
+	// Form Values
+	const [formValues, setFormValues] = useState({});
+	console.log('Form Values:', formValues);
 
 	// Submit Spin
 	const [spin, setSpin] = useState(false);
@@ -124,8 +128,18 @@ export const Form = ({
 			spin,
 			setSpin,
 			onBlur,
+			formValues,
+			setFormValues,
 		}),
-		[errors, validationSchema, spin, onBlur, setErrors]
+		[
+			errors,
+			validationSchema,
+			spin,
+			onBlur,
+			setErrors,
+			formValues,
+			setFormValues,
+		]
 	);
 
 	return (
