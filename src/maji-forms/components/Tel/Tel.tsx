@@ -58,13 +58,16 @@ export const Tel = (props: Props) => {
 	return (
 		<div className='mb-3'>
 			<label>
-				<span className={`block py-2 px-0 ${errors[name] ? 'text-error' : ''}`}>
+				<span
+					className={`block py-2 px-0 ${
+						errors && errors[name] ? 'text-error' : ''
+					}`}>
 					{label} <span className='text-error'>{required && '*'}</span>
 				</span>
 				<span>{description}</span>
 				<input
 					className={`block w-full p-3 pr-4 rounded ${
-						errors[name]
+						errors && errors[name]
 							? 'border-2 border-red bg-red-100 outline-none'
 							: 'border border-gray-700'
 					}`}
@@ -78,7 +81,7 @@ export const Tel = (props: Props) => {
 					required={required}
 				/>
 			</label>
-			{errors[name] && (
+			{errors && errors[name] && (
 				<span className='text-error block mt-1'>{errors[name]}</span>
 			)}
 		</div>

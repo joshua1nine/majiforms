@@ -159,7 +159,10 @@ export const File = ({ name, label, multiple, accept, required }: Props) => {
 	/* ---- Template ---- */
 	return (
 		<div className='mb-3'>
-			<label className={`block py-2 px-0 ${errors[name] ? 'text-error' : ''}`}>
+			<label
+				className={`block py-2 px-0 ${
+					errors && errors[name] ? 'text-error' : ''
+				}`}>
 				<span>
 					{label} <span className='text-error'>{required && '*'}</span>
 				</span>
@@ -175,7 +178,9 @@ export const File = ({ name, label, multiple, accept, required }: Props) => {
 			</label>
 			<div
 				className={`flex flex-col rounded items-center justify-center border-2 border-dashed bg-white py-7 px-3 cursor-pointer ${
-					dropZone || errors[name] ? 'border-red' : 'border-gray-700'
+					dropZone || (errors && errors[name])
+						? 'border-red'
+						: 'border-gray-700'
 				}`}
 				onDrop={(e) => handleDrop(e)}
 				onDragOver={(e) => handleDragOver(e)}
@@ -216,7 +221,7 @@ export const File = ({ name, label, multiple, accept, required }: Props) => {
 						</div>
 					);
 				})}
-			{errors[name] && (
+			{errors && errors[name] && (
 				<span className='text-error block mt-1'>{errors[name]}</span>
 			)}
 		</div>

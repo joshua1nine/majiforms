@@ -8,6 +8,7 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
+		"@types/express": "^4.17.13",
 		"just-omit": "^2.0.1",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",

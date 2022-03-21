@@ -1,7 +1,6 @@
-import { useState, useRef, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { object } from 'yup';
 import { convertArrayToObject } from '../../lib/convertArrayToObject';
-import { toJSON } from '../../lib/toJSON';
 import omit from 'just-omit';
 import { FormContext } from '../FormContext';
 
@@ -24,12 +23,8 @@ export const Form = ({
 	// Errors
 	const [errors, setErrors] = useState({});
 
-	// Ref
-	const formRef = useRef<HTMLFormElement>(null!);
-
 	// Form Values
 	const [formValues, setFormValues] = useState({});
-	console.log('Form Values:', formValues);
 
 	// Submit Spin
 	const [spin, setSpin] = useState(false);
@@ -61,53 +56,40 @@ export const Form = ({
 	// Submit Logic
 	const handleSubmit = async (e: { preventDefault: () => void }) => {
 		e.preventDefault();
-		const formData = new FormData(formRef.current);
-		const formFields: any = toJSON(formData);
 		setSpin(true);
 
 		// Skip validation and send to console
 		if (submitType == 'console' && validation == 'off') {
-			console.log(formFields);
+			console.log(formValues);
 			setTimeout(() => setSpin(false), 2000);
 		} else {
 			validationSchema
-				.validate(formFields, { abortEarly: false })
+				.validate(formValues, { abortEarly: false })
 				.then(async () => {
 					setErrors({});
 					// Send to console
 					if (submitType == 'console') {
-						console.log(formFields);
+						console.log(formValues);
 						setTimeout(() => setSpin(false), 2000);
 					}
-					// Send as multipart/from-data
-					if (submitType === 'multipart/form-data') {
-						console.log('Submit as formData object', formData);
-						// Send to api
-						let res = await fetch(action, {
-							method: 'POST',
-							body: formData,
-						});
 
-						// Data Response
-						let data = await res.json();
-						if (data.status) {
-							setSpin(false);
-						}
-						console.log(data);
-					}
-					// Send as application/json
 					if (submitType === 'application/json') {
-						console.log('Submit as JSON', formFields);
-						// Send to api
-						let res = await fetch(action, {
-							method: 'POST',
-							headers: { 'Content-Type': 'application/json' },
-							body: formFields,
-						});
+						try {
+							// Send to api
+							let res = await fetch(action, {
+								method: 'POST',
+								headers: { 'Content-Type': 'application/json' },
+								body: JSON.stringify(formValues),
+							});
 
-						// Data Response
-						let data = await res.json();
-						console.log(data);
+							// Data Response
+							if (res.status === 200) {
+								setSpin(false);
+								console.log(res);
+							}
+						} catch (error) {
+							console.log(error);
+						}
 					}
 				})
 				.catch((err: { inner: any[] }) => {
@@ -144,7 +126,7 @@ export const Form = ({
 
 	return (
 		<FormContext.Provider value={value}>
-			<form ref={formRef} onSubmit={handleSubmit} noValidate>
+			<form onSubmit={handleSubmit} noValidate>
 				{children}
 			</form>
 		</FormContext.Provider>
