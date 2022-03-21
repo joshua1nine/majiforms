@@ -1,5 +1,4 @@
 const fs = require('fs');
-import { Blob } from 'buffer';
 const sanityClient = require('@sanity/client');
 const client = sanityClient({
 	projectId: 'gug9xys0',
@@ -13,24 +12,18 @@ import express from 'express';
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json({ limit: '200mb' }));
 
 app.post('/api/hello', async (req, res) => {
 	try {
-		// console.log(req.body);
 		const app = req.body.app;
 
-		let split = app.data.split(',');
-		let type = split[0].split(':')[1].split(';')[0];
-		let data = split[1];
-
-		// let blob = new Blob([data], { type: type });
-
+		let data = app.data.split(',')[1];
 		let asset = Buffer.from(data, 'base64url');
 
 		if (app) {
 			client.assets
-				.upload('image', fs.createReadStream(asset), {
+				.upload('file', asset, {
 					filename: app.name,
 				})
 				.then((doc: any) => {

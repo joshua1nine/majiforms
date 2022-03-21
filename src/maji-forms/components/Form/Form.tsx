@@ -25,7 +25,6 @@ export const Form = ({
 
 	// Form Values
 	const [formValues, setFormValues] = useState({});
-	console.log(formValues);
 
 	// Submit Spin
 	const [spin, setSpin] = useState(false);
