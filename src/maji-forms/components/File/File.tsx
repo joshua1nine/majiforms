@@ -1,7 +1,7 @@
 import { FaRegFileAlt, FaImage } from 'react-icons/fa';
 import { DragEvent, Key, useContext, useRef, useState, useEffect } from 'react';
 import { FormContext } from '../FormContext';
-import { mixed, string } from 'yup';
+import { mixed, number, string, object } from 'yup';
 
 interface Props {
 	name: string;
@@ -46,7 +46,12 @@ export const File = ({ name, label, multiple, accept, required }: Props) => {
 			} else {
 				return validationSchema.shape({
 					...values.fields,
-					[name]: string(),
+					[name]: object({
+						name: string(),
+						size: number(),
+						type: string(),
+						data: string(),
+					}),
 				});
 			}
 		});
@@ -76,7 +81,7 @@ export const File = ({ name, label, multiple, accept, required }: Props) => {
 					let reader = new FileReader();
 					reader.readAsDataURL(file);
 					reader.onload = function () {
-						let base64data = reader.result;
+						let base64data = reader.result || '';
 
 						let fileObj = {
 							name: file.name,
@@ -111,9 +116,10 @@ export const File = ({ name, label, multiple, accept, required }: Props) => {
 					[name]: value,
 				}));
 			} else {
-				setFormValues({
+				setFormValues((current) => ({
+					...current,
 					[name]: value[0],
-				});
+				}));
 			}
 		}
 	}, [value]);

@@ -25,6 +25,7 @@ export const Form = ({
 
 	// Form Values
 	const [formValues, setFormValues] = useState({});
+	console.log(formValues);
 
 	// Submit Spin
 	const [spin, setSpin] = useState(false);
@@ -85,7 +86,6 @@ export const Form = ({
 							// Data Response
 							if (res.status === 200) {
 								setSpin(false);
-								console.log(res);
 							}
 						} catch (error) {
 							console.log(error);

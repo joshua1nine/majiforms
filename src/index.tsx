@@ -6,10 +6,10 @@ function Index() {
 		<div className='container mx-auto max-w-4xl p-3 mt-6'>
 			<h1 className='text-5xl mb-8'>Maji Forms</h1>
 			<Form submitType='application/json' action='api/hello'>
-				<Text name='fname' label='First Name' required />
-				<Text name='lname' label='Last Name' required />
-				<Tel name='phone' label='Phone' required />
-				<File name='app' label='Application' accept='.pdf,.jpg,.jpeg' />
+				<Text name='fname' label='First Name' />
+				<Text name='lname' label='Last Name' />
+				<Tel name='phone' label='Phone' />
+				<File name='app' label='Application' accept='.pdf,.jpg,.jpeg,.png' />
 				<Submit>Send</Submit>
 			</Form>
 		</div>
