@@ -10,6 +10,7 @@ import {
 	Number,
 	Url,
 	Select,
+	Radio,
 } from './maji-forms/index';
 
 function Index() {
@@ -31,6 +32,18 @@ function Index() {
 					options={[
 						{ label: 'Option 1', value: 'opt1' },
 						{ label: 'Option 2', value: 'opt2' },
+					]}
+				/>
+				<Radio
+					name='gender'
+					label='Gender'
+					description='Please select one'
+					layout='horizontal'
+					required
+					options={[
+						{ id: 'male', label: 'Male', value: 'male' },
+						{ id: 'female', label: 'Female', value: 'female' },
+						{ id: 'other', label: 'Other', value: 'other' },
 					]}
 				/>
 				<Submit>Send</Submit>
