@@ -1,5 +1,4 @@
-import { useEffect, useContext } from 'react';
-import { string } from 'yup';
+import { useContext } from 'react';
 import { FormContext } from '../FormContext';
 
 export function HoneyPot() {

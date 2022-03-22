@@ -31,9 +31,16 @@ export const Form = ({
 
 	// Validate onBlur
 	const onBlur = async (e: {
-		target: { value: any; name: string; attributes: any };
+		target: {
+			value: any;
+			name: string;
+			attributes: any;
+			type: string;
+			checked: boolean;
+		};
 	}) => {
-		let value = e.target.value;
+		let type = e.target.type;
+		let value = type === 'checkbox' ? e.target.checked : e.target.value;
 		let name = e.target.name;
 		let val = validationSchema?.fields[name];
 

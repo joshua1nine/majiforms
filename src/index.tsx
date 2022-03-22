@@ -12,6 +12,7 @@ import {
 	Select,
 	Radio,
 	HoneyPot,
+	Checkbox,
 } from './maji-forms/index';
 
 function Index() {
@@ -46,6 +47,12 @@ function Index() {
 						{ id: 'female', label: 'Female', value: 'female' },
 						{ id: 'other', label: 'Other', value: 'other' },
 					]}
+				/>
+				<Checkbox
+					name='terms'
+					label='Terms'
+					description='Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam illo corporis odio et obcaecati enim debitis quisquam iure facere vero. Omnis necessitatibus est aperiam perferendis labore quod earum nihil sint? Magnam ipsa, modi doloribus esse possimus itaque quam quibusdam quis, vero et rem atque consectetur iusto assumenda. Perspiciatis aliquid, veniam, perferendis possimus voluptates unde dolorum corrupti consequatur iusto odit ipsa?'
+					required
 				/>
 				<HoneyPot />
 				<Submit>Send</Submit>
