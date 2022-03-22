@@ -9,6 +9,7 @@ import {
 	Email,
 	Number,
 	Url,
+	Select,
 } from './maji-forms/index';
 
 function Index() {
@@ -24,6 +25,14 @@ function Index() {
 				<Email name='email' label='Email' />
 				<Number name='number' label='Number' required />
 				<Url name='Url' label='Url' required />
+				<Select
+					name='select'
+					label='Select'
+					options={[
+						{ label: 'Option 1', value: 'opt1' },
+						{ label: 'Option 2', value: 'opt2' },
+					]}
+				/>
 				<Submit>Send</Submit>
 			</Form>
 		</div>

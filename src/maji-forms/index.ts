@@ -4,6 +4,7 @@ export { Email } from './components/Email';
 export { Submit } from './components/Submit';
 export { Tel } from './components/Tel';
 export { Number } from './components/Number';
+export { Select } from './components/Select';
 export { Url } from './components/Url';
 export { File } from './components/File';
 export { Form } from './components/Form';

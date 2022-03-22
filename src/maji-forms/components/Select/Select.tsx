@@ -1,5 +1,5 @@
-import { useEffect, useContext, useState } from 'react';
-import { number, mixed } from 'yup';
+import { useEffect, useContext } from 'react';
+import { string } from 'yup';
 import { FormContext } from '../FormContext';
 
 type Props = {
@@ -7,23 +7,12 @@ type Props = {
 	label: string;
 	required?: boolean;
 	description?: string;
-	min?: number;
-	max?: number;
-	step?: number;
-	value?: number;
+	options: { label: string; value: string }[];
 };
 
-export const Number = (props: Props) => {
+export const Select = (props: Props) => {
 	// Props
-	const {
-		name,
-		label,
-		description = '',
-		required = false,
-		min = 0,
-		max = 9999,
-		step,
-	} = props;
+	const { name, label, description = '', required = false, options } = props;
 
 	// Form Global State
 	const {
@@ -36,7 +25,6 @@ export const Number = (props: Props) => {
 
 	const handelChange = (e: { target: { value: any; name: any } }) => {
 		let value = e.target.value;
-		// setValue(value);
 		let name = e.target.name;
 		setFormValues((current) => ({ ...current, [name]: value }));
 	};
@@ -47,30 +35,12 @@ export const Number = (props: Props) => {
 			if (required) {
 				return validationSchema.shape({
 					...values.fields,
-					[name]: mixed()
-						.test('required', 'Required', (value) => {
-							if (value === '') {
-								return false;
-							}
-							return true;
-						})
-						.test('min', `Minimum of ${min}`, (value) => {
-							return value >= min;
-						})
-						.test('max', `Maximum of ${max}`, (value) => {
-							return value <= max;
-						}),
+					[name]: string().required('Required'),
 				});
 			} else {
 				return validationSchema.shape({
 					...values.fields,
-					[name]: mixed()
-						.test('min', `Minimum of ${min}`, (value) => {
-							return value >= min;
-						})
-						.test('max', `Maximum of ${max}`, (value) => {
-							return value <= max;
-						}),
+					[name]: string(),
 				});
 			}
 		});
@@ -86,21 +56,25 @@ export const Number = (props: Props) => {
 					{label} <span className='text-error'>{required && '*'}</span>
 				</span>
 				<span>{description}</span>
-				<input
-					className={`block w-full p-3 pr-4 rounded  ${
+				<select
+					className={`block w-full p-3 pr-4 rounded ${
 						errors && errors[name]
 							? 'border-2 border-red bg-red-100 outline-none focus:border-red focus:ring-0'
-							: 'border border-gray-700 focus:border-gray-900 focus:ring-gray-900'
+							: 'border border-gray-700 focus:border-gray-900 focus:ring-gray-900 '
 					}`}
-					type='number'
 					name={name}
-					required={required}
-					onBlur={onBlur}
 					onChange={handelChange}
-					min={min}
-					max={max}
-					step={step}
-				/>
+					onBlur={onBlur}
+					required={required}>
+					<option value=''>Select</option>
+					{options.map(({ value, label }, index) => {
+						return (
+							<option key={index} value={value}>
+								{label}
+							</option>
+						);
+					})}
+				</select>
 			</label>
 			{errors && errors[name] && (
 				<span className='text-error block mt-1'>{errors[name]}</span>

@@ -58,8 +58,8 @@ export const Email = (props: Props) => {
 				<input
 					className={`block w-full p-3 pr-4 rounded  ${
 						errors && errors[name]
-							? 'border-2 border-red bg-red-100 outline-none'
-							: 'border border-gray-700'
+							? 'border-2 border-red bg-red-100 outline-none focus:border-red focus:ring-0'
+							: 'border border-gray-700 focus:border-gray-900 focus:ring-gray-900 '
 					}`}
 					type='email'
 					name={name}
