@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState } from 'react';
-import { number, mixed } from 'yup';
+import { mixed } from 'yup';
 import { FormContext } from '../FormContext';
 
 type Props = {
@@ -66,9 +66,15 @@ export const Number = (props: Props) => {
 					...values.fields,
 					[name]: mixed()
 						.test('min', `Minimum of ${min}`, (value) => {
+							if (value === undefined) {
+								return true;
+							} // optional
 							return value >= min;
 						})
 						.test('max', `Maximum of ${max}`, (value) => {
+							if (value === undefined) {
+								return true;
+							} // optional
 							return value <= max;
 						}),
 				});
