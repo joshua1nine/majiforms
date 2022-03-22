@@ -12,4 +12,3 @@ export { Checkbox } from './components/Checkbox';
 export { CheckboxGroup } from './components/CheckboxGroup';
 export { Form } from './components/Form';
 export { HoneyPot } from './components/HoneyPot';
-// export { useMajiForm } from './lib/useMajiForm';
