@@ -11,6 +11,7 @@ import {
 	Url,
 	Select,
 	Radio,
+	HoneyPot,
 } from './maji-forms/index';
 
 function Index() {
@@ -46,6 +47,7 @@ function Index() {
 						{ id: 'other', label: 'Other', value: 'other' },
 					]}
 				/>
+				<HoneyPot />
 				<Submit>Send</Submit>
 			</Form>
 		</div>

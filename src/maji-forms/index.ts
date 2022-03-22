@@ -9,4 +9,5 @@ export { Radio } from './components/Radio';
 export { Url } from './components/Url';
 export { File } from './components/File';
 export { Form } from './components/Form';
+export { HoneyPot } from './components/HoneyPot';
 // export { useMajiForm } from './lib/useMajiForm';
