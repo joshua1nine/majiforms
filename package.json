@@ -1,6 +1,5 @@
 {
-	"name": "@maji/forms",
-	"private": true,
+	"name": "majiforms",
 	"version": "0.0.1",
 	"main": "dist/maji-forms.cjs.js",
 	"module": "dist/maji-forms.es.js",
