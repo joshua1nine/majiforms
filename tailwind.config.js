@@ -1,7 +1,7 @@
 const colors = require('tailwindcss/colors');
 
 module.exports = {
-	content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+	content: ['./src/**/*.{js,ts,jsx,tsx}'],
 	theme: {
 		extend: {
 			boxShadow: {
@@ -40,4 +40,8 @@ module.exports = {
 		},
 	},
 	plugins: [require('@tailwindcss/forms')],
+	corePlugins: {
+		preflight: true,
+	},
+	// prefix: 'majiforms-',
 };

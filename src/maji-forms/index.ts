@@ -1,3 +1,5 @@
+import 'tailwindcss/tailwind.css';
+
 export { Text } from './components/Text';
 export { TextArea } from './components/TextArea';
 export { Email } from './components/Email';
