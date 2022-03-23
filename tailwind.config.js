@@ -43,5 +43,5 @@ module.exports = {
 	corePlugins: {
 		preflight: true,
 	},
-	// prefix: 'majiforms-',
+	prefix: 'mf-',
 };
