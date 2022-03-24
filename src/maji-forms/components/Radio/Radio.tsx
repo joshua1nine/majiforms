@@ -55,24 +55,26 @@ export const Radio = (props: Props) => {
 	}, []);
 
 	return (
-		<div className='mb-3'>
+		<div className='mf-mb-3'>
 			<label>
 				<span
-					className={`block py-2 px-0 ${
-						errors && errors[name] ? 'text-error' : ''
+					className={`mf-block mf-py-2 mf-px-0 ${
+						errors && errors[name] ? 'mf-text-error' : ''
 					}`}>
-					{label} <span className='text-error'>{required && '*'}</span>
+					{label} <span className='mf-text-error'>{required && '*'}</span>
 				</span>
-				<span className='block text-sm -mt-2 pb-1'>{description}</span>
-				<div className={layout == 'horizontal' ? 'flex space-x-4' : ''}>
+				<span className='-mf-mt-2 mf-block mf-pb-1 mf-text-sm'>
+					{description}
+				</span>
+				<div className={layout == 'horizontal' ? 'mf-flex mf-space-x-4' : ''}>
 					{options.map(({ label, id, value }, index) => {
 						return (
 							<label
 								key={index}
-								className='my-2 flex items-center'
+								className='mf-my-2 mf-flex mf-items-center'
 								htmlFor={id}>
 								<input
-									className={`h-4 w-4 text-red focus:ring-red focus:ring-opacity-30 focus:ring-offset-0`}
+									className={`mf-h-4 mf-w-4 mf-text-red focus:mf-ring-red focus:mf-ring-opacity-30 focus:mf-ring-offset-0`}
 									type='radio'
 									name={name}
 									id={id}
@@ -80,35 +82,15 @@ export const Radio = (props: Props) => {
 									onBlur={onBlur}
 									value={value}
 								/>
-								<span className='pl-2'>{label}</span>
+								<span className='mf-pl-2'>{label}</span>
 							</label>
 						);
 					})}
 				</div>
 			</label>
-			{/* <label>
-				<span
-					className={`block py-2 px-0 ${
-						errors && errors[name] ? 'text-error' : ''
-					}`}>
-					{label} <span className='text-error'>{required && '*'}</span>
-				</span>
-				<span>{description}</span>
-				<input
-					className={`block w-full p-3 pr-4 rounded  ${
-						errors && errors[name]
-							? 'border-2 border-red bg-red-100 outline-none focus:border-red focus:ring-0'
-							: 'border border-gray-700 focus:border-gray-900 focus:ring-gray-900 '
-					}`}
-					type='text'
-					name={name}
-					required={required}
-					onBlur={onBlur}
-					onChange={handelChange}
-				/>
-			</label> */}
+
 			{errors && errors[name] && (
-				<span className='text-error block mt-1'>{errors[name]}</span>
+				<span className='mf-mt-1 mf-block mf-text-error'>{errors[name]}</span>
 			)}
 		</div>
 	);

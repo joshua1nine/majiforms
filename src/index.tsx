@@ -18,8 +18,8 @@ import {
 
 function Index() {
 	return (
-		<div className='container mx-auto max-w-4xl p-3 mt-6'>
-			<h1 className='text-5xl mb-8'>Maji Forms</h1>
+		<div className='mf-container mf-mx-auto mf-mt-6 mf-max-w-4xl mf-p-3'>
+			<h1 className='mf-mb-8 mf-text-5xl'>Maji Forms</h1>
 			<Form submitType='application/json' action='api/hello'>
 				<Text name='fname' label='First Name' />
 				<Text name='lname' label='Last Name' />

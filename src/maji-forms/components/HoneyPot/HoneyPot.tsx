@@ -13,7 +13,7 @@ export function HoneyPot() {
 
 	return (
 		<input
-			className='hidden'
+			className='mf-hidden'
 			type='checkbox'
 			value='1'
 			tabIndex={-1}

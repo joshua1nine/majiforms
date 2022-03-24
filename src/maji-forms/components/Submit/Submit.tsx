@@ -11,7 +11,7 @@ export const Submit = ({ children }: Submit) => {
 
 	return (
 		<button
-			className='flex items-center justify-center text-white bg-[#cb2c30] my-5 w-24 h-12 border-0 rounded cursor-pointer active:shadow-innerBtn active:bg-[#cb2c30] hover:bg-red-700'
+			className='hover:mf-bg-red-700 mf-my-5 mf-flex mf-h-12 mf-w-24 mf-cursor-pointer mf-items-center mf-justify-center mf-rounded mf-border-0 mf-bg-[#cb2c30] mf-text-white active:mf-bg-[#cb2c30] active:mf-shadow-innerBtn'
 			type='submit'>
 			{spin ? (
 				<svg
@@ -19,7 +19,7 @@ export const Submit = ({ children }: Submit) => {
 					focusable='false'
 					data-prefix='fad'
 					data-icon='spinner-third'
-					className='h-6 w-6 animate-spin'
+					className='mf-h-6 mf-w-6 mf-animate-spin'
 					role='img'
 					xmlns='http://www.w3.org/2000/svg'
 					viewBox='0 0 512 512'>

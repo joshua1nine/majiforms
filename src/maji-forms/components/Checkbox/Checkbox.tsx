@@ -49,17 +49,19 @@ export const Checkbox = (props: Props) => {
 	}, []);
 
 	return (
-		<div className='mb-3'>
+		<div className='mf-mb-3'>
 			<label>
 				<span
-					className={`block py-2 px-0 ${
-						errors && errors[name] ? 'text-error' : ''
+					className={`mf-block mf-py-2 mf-px-0 ${
+						errors && errors[name] ? 'mf-text-error' : ''
 					}`}>
-					{label} <span className='text-error'>{required && '*'}</span>
+					{label} <span className='mf-text-error'>{required && '*'}</span>
 				</span>
-				<span className='block text-sm -mt-2 pb-1'>{description}</span>
+				<span className='-mf-mt-2 mf-block mf-pb-1 mf-text-sm'>
+					{description}
+				</span>
 				<input
-					className={`h-[20px] w-[20px] text-red focus:ring-1 focus:ring-red focus:ring-offset-1`}
+					className={`mf-h-[20px] mf-w-[20px] mf-text-red focus:mf-ring-1 focus:mf-ring-red focus:mf-ring-offset-1`}
 					type='checkbox'
 					name={name}
 					id={name}
@@ -68,7 +70,7 @@ export const Checkbox = (props: Props) => {
 				/>
 			</label>
 			{errors && errors[name] && (
-				<span className='text-error block mt-1'>{errors[name]}</span>
+				<span className='mf-mt-1 mf-block mf-text-error'>{errors[name]}</span>
 			)}
 		</div>
 	);

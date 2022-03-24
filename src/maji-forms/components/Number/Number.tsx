@@ -83,20 +83,20 @@ export const Number = (props: Props) => {
 	}, []);
 
 	return (
-		<div className='mb-3'>
+		<div className='mf-mb-3'>
 			<label>
 				<span
-					className={`block py-2 px-0 ${
-						errors && errors[name] ? 'text-error' : ''
+					className={`mf-block mf-py-2 mf-px-0 ${
+						errors && errors[name] ? 'mf-text-error' : ''
 					}`}>
-					{label} <span className='text-error'>{required && '*'}</span>
+					{label} <span className='mf-text-error'>{required && '*'}</span>
 				</span>
 				<span>{description}</span>
 				<input
-					className={`block w-full p-3 pr-4 rounded  ${
+					className={`mf-block mf-w-full mf-rounded mf-p-3 mf-pr-4  ${
 						errors && errors[name]
-							? 'border-2 border-red bg-red-100 outline-none focus:border-red focus:ring-0'
-							: 'border border-gray-700 focus:border-gray-900 focus:ring-gray-900'
+							? 'mf-border-2 mf-border-red mf-bg-red-100 mf-outline-none focus:mf-border-red focus:mf-ring-0'
+							: 'mf-border mf-border-gray-700 focus:mf-border-gray-900 focus:mf-ring-gray-900'
 					}`}
 					type='number'
 					name={name}
@@ -109,7 +109,7 @@ export const Number = (props: Props) => {
 				/>
 			</label>
 			{errors && errors[name] && (
-				<span className='text-error block mt-1'>{errors[name]}</span>
+				<span className='mf-mt-1 mf-block mf-text-error'>{errors[name]}</span>
 			)}
 		</div>
 	);

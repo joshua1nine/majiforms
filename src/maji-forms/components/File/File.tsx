@@ -164,18 +164,18 @@ export const File = ({ name, label, multiple, accept, required }: Props) => {
 
 	/* ---- Template ---- */
 	return (
-		<div className='mb-3'>
+		<div className='mf-mb-3'>
 			<label
-				className={`block py-2 px-0 ${
-					errors && errors[name] ? 'text-error' : ''
+				className={`mf-block mf-py-2 mf-px-0 ${
+					errors && errors[name] ? 'mf-text-error' : ''
 				}`}>
 				<span>
-					{label} <span className='text-error'>{required && '*'}</span>
+					{label} <span className='mf-text-error'>{required && '*'}</span>
 				</span>
 				<input
 					ref={hiddenFileInput}
-					style={{ display: 'none' }}
-					type='file'
+					style={{ display: 'mf-none' }}
+					type='mf-file'
 					name={name}
 					onChange={handleAppChange}
 					accept={accept}
@@ -183,10 +183,10 @@ export const File = ({ name, label, multiple, accept, required }: Props) => {
 				/>
 			</label>
 			<div
-				className={`flex flex-col rounded items-center justify-center border-2 border-dashed bg-white py-7 px-3 cursor-pointer ${
+				className={`mf-flex mf-cursor-pointer mf-flex-col mf-items-center mf-justify-center mf-rounded mf-border-2 mf-border-dashed mf-bg-white mf-py-7 mf-px-3 ${
 					dropZone || (errors && errors[name])
-						? 'border-red'
-						: 'border-gray-700'
+						? 'mf-border-red'
+						: 'mf-border-gray-700'
 				}`}
 				onDrop={(e) => handleDrop(e)}
 				onDragOver={(e) => handleDragOver(e)}
@@ -196,18 +196,20 @@ export const File = ({ name, label, multiple, accept, required }: Props) => {
 				<FaRegFileAlt
 					className={
 						dropZone
-							? 'mb-4 text-4xl text-red animate-bounce-rev'
-							: 'mb-4 text-4xl text-gray-700 transition-all'
+							? 'mf-mb-4 mf-animate-bounce-rev mf-text-4xl mf-text-red'
+							: 'mf-mb-4 mf-text-4xl mf-text-gray-700 mf-transition-all'
 					}
 				/>
 				<p className='m-0'>
 					Drop your application here, or{' '}
-					<span className='cursor-pointer font-bold hover:text-red'>
+					<span className='mf-cursor-pointer mf-font-bold hover:mf-text-red'>
 						browse
 					</span>
 				</p>
 				{accept && (
-					<span className='text-sm text-gray-700'>Supports: {accept}</span>
+					<span className='mf-text-sm mf-text-gray-700'>
+						Supports: {accept}
+					</span>
 				)}
 			</div>
 			{value.length > 0 &&
@@ -215,12 +217,12 @@ export const File = ({ name, label, multiple, accept, required }: Props) => {
 					return (
 						<div
 							key={index}
-							className='mt-2 flex items-center justify-between border border-gray-700 rounded p-3'>
-							<div className='flex items-center'>
+							className='mf-mt-2 mf-flex mf-items-center mf-justify-between mf-rounded mf-border mf-border-gray-700 mf-p-3'>
+							<div className='mf-flex mf-items-center'>
 								{file?.type?.includes('image/') ? (
-									<FaImage className='mr-3 text-2xl text-red' />
+									<FaImage className='mf-mr-3 mf-text-2xl mf-text-red' />
 								) : (
-									<FaRegFileAlt className='mr-3 text-2xl text-red' />
+									<FaRegFileAlt className='mf-mr-3 mf-text-2xl mf-text-red' />
 								)}
 								<span className='m-0'>{file.name}</span>
 							</div>
@@ -228,7 +230,7 @@ export const File = ({ name, label, multiple, accept, required }: Props) => {
 					);
 				})}
 			{errors && errors[name] && (
-				<span className='text-error block mt-1'>{errors[name]}</span>
+				<span className='mf-mt-1 mf-block mf-text-error'>{errors[name]}</span>
 			)}
 		</div>
 	);

@@ -92,25 +92,27 @@ export const CheckboxGroup = (props: Props) => {
 	}, []);
 
 	return (
-		<div className='mb-3'>
+		<div className='mf-mb-3'>
 			<label>
 				<span
-					className={`block py-2 px-0 ${
-						errors && errors[name] ? 'text-error' : ''
+					className={`mf-block mf-py-2 mf-px-0 ${
+						errors && errors[name] ? 'mf-text-error' : ''
 					}`}>
-					{label} <span className='text-error'>{required && '*'}</span>
+					{label} <span className='mf-text-error'>{required && '*'}</span>
 				</span>
-				<span className='block text-sm -mt-2 pb-1'>{description}</span>
-				<div className={layout == 'horizontal' ? 'flex space-x-4' : ''}>
+				<span className='-mf-mt-2 mf-block mf-pb-1 mf-text-sm'>
+					{description}
+				</span>
+				<div className={layout == 'horizontal' ? 'mf-flex mf-space-x-4' : ''}>
 					{options &&
 						options.map(({ id, label, value }, index) => {
 							return (
 								<label
 									key={index}
-									className='my-2 flex items-center'
+									className='mf-my-2 mf-flex mf-items-center'
 									htmlFor={id}>
 									<input
-										className={`h-5 w-5 text-red focus:ring-red focus:ring-1 focus:ring-offset-1`}
+										className={`mf-h-5 mf-w-5 mf-text-red focus:mf-ring-1 focus:mf-ring-red focus:mf-ring-offset-1`}
 										type='checkbox'
 										name={id}
 										id={id}
@@ -118,7 +120,7 @@ export const CheckboxGroup = (props: Props) => {
 										onChange={handleChange}
 										onBlur={onBlur}
 									/>
-									<span className='pl-2'>{label}</span>
+									<span className='mf-pl-2'>{label}</span>
 								</label>
 							);
 						})}

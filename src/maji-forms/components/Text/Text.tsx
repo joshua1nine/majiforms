@@ -56,7 +56,7 @@ export const Text = (props: Props) => {
 				</span>
 				<span>{description}</span>
 				<input
-					className={`mf-block mf-w-full mf-p-3 mf-pr-4 mf-rounded  ${
+					className={`mf-block mf-w-full mf-rounded mf-p-3 mf-pr-4  ${
 						errors && errors[name]
 							? 'mf-border-2 mf-border-red mf-bg-red-100 mf-outline-none focus:mf-border-red focus:mf-ring-0'
 							: 'mf-border mf-border-gray-700 focus:mf-border-gray-900 focus:mf-ring-gray-900 '
@@ -69,7 +69,7 @@ export const Text = (props: Props) => {
 				/>
 			</label>
 			{errors && errors[name] && (
-				<span className='mf-text-error mf-block mf-mt-1'>{errors[name]}</span>
+				<span className='mf-mt-1 mf-block mf-text-error'>{errors[name]}</span>
 			)}
 		</div>
 	);
