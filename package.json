@@ -1,6 +1,7 @@
 {
 	"name": "majiforms",
 	"version": "0.0.1",
+	"license": "GPL",
 	"main": "dist/maji-forms.cjs.js",
 	"module": "dist/maji-forms.es.js",
 	"types": "dist/index.d.ts",
